@@ -17,6 +17,9 @@ public:
     String operator+(const String &);
     void operator+=(const String &);
     String &operator=(const String &);
+    //
+    String &operator>>(const String&);
+    //
     // Загальні методи доступу
     int GetLen() const { return itsLen; }
     const char *GetString() const { return itsString; }
@@ -132,6 +135,12 @@ String String::operator+(const String &rhs)
    	 temp[i] = rhs[j];
     temp[totalLen] = '\0';
     return temp;
+}
+
+//оператор вывода
+String String::operator>>(const String)
+{
+    //
 }
 
 // змінює поточний рядок, нічого не повертаючи
