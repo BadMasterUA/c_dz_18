@@ -5,13 +5,14 @@ using namespace std;
 
 class Animal;
 
-void setValue(Animal &, int);
+//void setValue(Animal &, int);
 
-void setValue(Animal &, int, int);
+//void setValue(Animal &, int, int);
 
 class Animal
 {
-	friend void setValue(Animal &, int);
+	friend void setValue(Animal &, int, int);
+    friend void setValue(Animal &, int);
 
 private:
 	int itsWeight;
