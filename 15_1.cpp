@@ -18,7 +18,7 @@ public:
     void operator+=(const String &);
     String &operator=(const String &);
     //
-    String &operator>>(const String&);
+    friend istream &operator>>(istream &theStream, String &theString);
     //
     // Загальні методи доступу
     int GetLen() const { return itsLen; }
@@ -47,7 +47,7 @@ String::String(int len)
 {
     itsString = new char[len + 1];
     for (int i = 0; i <= len; i++)
-   	 itsString[i] = '\0';
+        itsString[i] = '\0';
     itsLen = len;
     // cout << "\tString(int) constructor\n";
     // ConstructorCount++;
@@ -59,7 +59,7 @@ String::String(const char *const cString)
     itsLen = strlen(cString);
     itsString = new char[itsLen + 1];
     for (int i = 0; i < itsLen; i++)
-   	 itsString[i] = cString[i];
+        itsString[i] = cString[i];
     itsString[itsLen] = '\0';
     // cout << "\tString(char*) constructor\n";
     // ConstructorCount++;
@@ -71,7 +71,7 @@ String::String(const String &rhs)
     itsLen = rhs.GetLen();
     itsString = new char[itsLen + 1];
     for (int i = 0; i < itsLen; i++)
-   	 itsString[i] = rhs[i];
+        itsString[i] = rhs[i];
     itsString[itsLen] = '\0';
     // cout << "\tString(String&) constructor\n";
     // ConstructorCount++;
@@ -90,12 +90,12 @@ String::~String()
 String &String::operator=(const String &rhs)
 {
     if (this == &rhs)
-   	 return *this;
+        return *this;
     delete[] itsString;
     itsLen = rhs.GetLen();
     itsString = new char[itsLen + 1];
     for (int i = 0; i < itsLen; i++)
-   	 itsString[i] = rhs[i];
+        itsString[i] = rhs[i];
     itsString[itsLen] = '\0';
     return *this;
     // cout <<"\tString operator=\n";
@@ -107,9 +107,9 @@ String &String::operator=(const String &rhs)
 char &String::operator[](int offset)
 {
     if (offset > itsLen)
-   	 return itsString[itsLen - 1];
+        return itsString[itsLen - 1];
     else
-   	 return itsString[offset];
+        return itsString[offset];
 }
 
 // Константний оператор індексування,
@@ -117,9 +117,9 @@ char &String::operator[](int offset)
 char String::operator[](int offset) const
 {
     if (offset > itsLen)
-   	 return itsString[itsLen - 1];
+        return itsString[itsLen - 1];
     else
-   	 return itsString[offset];
+        return itsString[offset];
 }
 
 // створює новий рядок, додаючи поточний
@@ -130,17 +130,18 @@ String String::operator+(const String &rhs)
     String temp(totalLen);
     int i, j;
     for (i = 0; i < itsLen; i++)
-   	 temp[i] = itsString[i];
+        temp[i] = itsString[i];
     for (j = 0; j < rhs.GetLen(); j++, i++)
-   	 temp[i] = rhs[j];
+        temp[i] = rhs[j];
     temp[totalLen] = '\0';
     return temp;
 }
 
-//оператор вывода
-String String::operator>>(const String)
+// оператор вывода
+istream &operator>>(istream &theStream, String &theString)
 {
-    //
+    theStream >> theString;
+    return theStream;
 }
 
 // змінює поточний рядок, нічого не повертаючи
@@ -151,12 +152,11 @@ void String::operator+=(const String &rhs)
     String temp(totalLen);
     int i, j;
     for (i = 0; i < itsLen; i++)
-   	 temp[i] = itsString[i];
+        temp[i] = itsString[i];
     for (j = 0; j < rhs.GetLen(); j++, i++)
-   	 temp[i] = rhs[i - itsLen];
+        temp[i] = rhs[i - itsLen];
     temp[totalLen] = '\0';
     *this = temp;
 }
 
 // int String: ConstructorCount = 0;
-
